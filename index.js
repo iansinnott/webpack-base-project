@@ -1,5 +1,3 @@
 // index.js
-const add = (a, b) => {
-  return a + b;
-};
+const add = require('./add.js');
 console.log(add(1, 2));
