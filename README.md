@@ -6,6 +6,7 @@ This is a learning project to get you set up and running Webpack. Unlike many We
 
 1. Start from the basics
 2. Move on to a working configuration
+2. Module bundling
 
 ## Basics
 
@@ -229,5 +230,67 @@ At first glance it would seem that webpack merely added a bunch of unecessary co
 
 **NOTE:** Since the `dist/` directory will only contain compiled files you will likely want to ignore it in `.gitignore` so it doesn't cause unnecessary merge conflicts.
 
+## Module Bundling
+
+That last section got webpack working, but it wasn't doing much. Let's create a real bundle. Create an `add.js` file in the same directory as `index.js`:
+
+```js
+// add.js
+module.exports = (a, b) => {
+  return a + b;
+};
+```
+
+Let's also refactor index.js so that it requires from app.js:
+
+```js
+// index.js
+const add = require('./add.js');
+console.log(add(1, 2));
+```
+
+As you know, browsers do not have a native `require` function that is capable of resolving modules. This is why we need a bundler like webpack to help us out. Let's run our build and:
+
+```
+npm run build
+```
+
+Let's take a look at our newly generated `dist/bundle.js`:
+
+**NOTE: We've omitted the top part of the file because it has not changed. The interesting part of the file is near the bottom.
+
+```js
+// Webpack require code omitted...
+
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// index.js
+	const add = __webpack_require__(1);
+	console.log(add(1, 2));
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+  module.exports = (a, b) => {
+    return a + b;
+  };
+
+
+/***/ }
+/******/ ]);
+```
+
+Now run this bundle to make sure it works as expected:
+
+```
+node dist/bundle.js
+```
+
+Did you get `3` in the console? Boom! Now you have a bundle that can be run in browsers. It's one file that can be loaded in one requst, but you can now separate all your code into separate files as you see fit. Webpack will handle the rest.
 
 [Webpack Configuration]: https://webpack.github.io/docs/configuration.html
