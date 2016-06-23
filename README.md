@@ -12,7 +12,7 @@ This is a learning project to get you set up and running Webpack. Unlike many We
 Checkout the starting branch:
 
 ```
-git checkout 1-basics
+git checkout 1-beginner
 ```
 
 Now build the project:
@@ -80,6 +80,10 @@ module.exports = {
 ```
 
 ## A working configuration
+
+```
+git checkout 2-a-working-configuration
+```
 
 Now that we have the basic ingredients we need to run Webpack, it's time to put it into use. Let's flesh out our `webpack.config.js` with an entry and output:
 
