@@ -260,10 +260,10 @@ npm run build
 
 Let's take a look at our newly generated `dist/bundle.js`:
 
-**NOTE: We've omitted the top part of the file because it has not changed. The interesting part of the file is near the bottom.
+**NOTE:** We've omitted the top part of the file because it has not changed. The interesting part of the file is near the bottom.
 
 ```js
-// Webpack require code omitted...
+// Webpack boilerplate code omitted...
 
 /************************************************************************/
 /******/ ([
@@ -314,8 +314,8 @@ Our code uses an ES6 arrow function, which is not compatible with many browsers 
 
 Quick Babel intro:
 
-* Babel turns ES6 code into ES5 code. That means you can write super nifty next-gen JS and transpile it into javascript that will run in every browser.
-* Babel can also transform React's JSX syntax into valid javascript. More on this later.
+* **Babel turns ES6 code into ES5 code.** That means you can write super nifty next-gen JS and transpile it into javascript that will run in every browser.
+* **Babel can also transform React's JSX syntax** into valid javascript. More on this later.
 
 Let's install Babel so we can use it:
 
@@ -331,7 +331,7 @@ Now that we have Babel and the Babel CLI installed we can run it directly. This 
 
 Now if you look at `dist/index.js` and `dist/add.js` you will see that Babel did... _absolutely nothing!_ Fun, right?
 
-Let's configure Babel so it does something. By default Babel doesn't do any transpilation. To make it work we need to add the `babel-preset-es2015` preset.
+Let's configure Babel so it does something. By default Babel doesn't do any transpilation. To make it work we need to add the ES2015 preset.
 
 ```
 npm install --save-dev babel-preset-es2015
@@ -366,11 +366,13 @@ var add = require('./add.js');
 console.log(add(1, 2));
 ```
 
-As you can see, Babel as transpiled our ES6 code and also added `'use strict';` to each file. Nice! This is a big improvement. However, you may notice that we're not bundling these files anymore. We've stopped using Webpack entirely.
+As you can see, Babel as transpiled our ES6 code and also added `'use strict';` to each file. Nice! This is a big improvement. However, you may notice that we're not bundling these files anymore. We've stopped using Webpack entirely. Let's see how we can bring Webpack back into the picture.
 
 ### Webpack Loaders
 
-Webpack loaders are a feature of Webpack which allows you perform arbitrary operations on source files as they are beeing bundled. In our case, we want to run our source files through Babel before bundling them. This is simple enough to configure in Webpack. However, before we move on lets first move our `index.js` and `app.js` files into their own directory where all our source files will live:
+Whew, now we can get on to the main event of this section: Webpack loaders. Webpack loaders are a feature of Webpack which allows you perform operations on source files as they are being bundled. In our case, we want to run our source files through Babel before bundling them. This is simple enough to configure in Webpack.
+
+However, before we move on lets first move our `index.js` and `app.js` files into their own directory where all our source files will live:
 
 ```
 mkdir src
@@ -386,7 +388,7 @@ const path = require('path'); // NOTE: We require path because we use it below
 
 module.exports = {
 
-  entry: './src/index.js', // NOTE: We changed the path to match our new index.js location
+  entry: './src/index.js', // IMPORTANT: We changed the path to match our new index.js location
 
   output: {
     path: './dist',
@@ -398,7 +400,7 @@ module.exports = {
       {
         test: /\.js$/, // [2]
         loaders: ['babel'], // [3]
-        include: path.join(__dirname, 'src'), [4]
+        include: path.join(__dirname, 'src'), // [4]
       },
     ],
   },
@@ -410,17 +412,17 @@ Again, let's step through this one line at a time:
 
 #### [1]
 
-In a Webpack config `module.loaders` defines an array of loaders to be run on your source files. This can contain any number of laoders including things like bable, typescript, coffescript, css preprocessors, image processors, etc. Loaders are one of Webpacks most commonly-used and powerful features.
+In a Webpack config `module.loaders` defines an array of loaders to be run on your source files. This can contain any number of loaders including things like bable, TypeScript, CoffeScript, CSS preprocessors, image processors, etc. Loaders are one of Webpacks most commonly-used features and they are quite powerful.
 
 #### [2]
 
-Each loader configuration object you define on `module.loaders` will have a `test` option that let's you specify a regex to be used when matchin source files. In our case, we're telling Webpack we want it to match every file that ends with `.js`.
+Each loader configuration object you define in `module.loaders` will have a `test` option that let's you specify a regex to be used when matchin source files. In our case, we're telling Webpack we want it to match every file that ends with `.js`.
 
 #### [3]
 
 So what does it mean when Webpack matches a file based on the `test` option? It means it will run it through the loader you specify here. In this case, we want it to run the files through the Babel loader.
 
-**IMPORTANT:** You will need to npm install the appropriate loader for every loader you put into your Webpack config. Let's do that now if you haven't already for Babel. Loaders are generally named with the `-loader` suffix:
+**IMPORTANT:** You will need to npm install the appropriate loader for every loader you put into your Webpack config. Let's do that for Babel now if you haven't already. Loaders are generally named with the `-loader` suffix:
 
 ```
 npm install --save-dev babel-loader
@@ -428,7 +430,7 @@ npm install --save-dev babel-loader
 
 #### [4]
 
-This line instructs Webpack to only run this loader on files within `src/`. This is important because we don't Babel run on modules we import from `node_modules`.
+This line instructs Webpack to only run this loader on files within `src/`. This is important because we don't want Babel to run on modules we import from `node_modules`.
 
 ### Run the build again
 
@@ -444,9 +446,11 @@ Run the Webpack build again:
 npm run build
 ```
 
-And check out the ouptut in `dist/bundle.js`:
+And check out the output in `dist/bundle.js`. As before, I've omitted the Webpack boilerplate that comes in every module bundle:
 
 ```js
+// Webpack boilerplate code omitted...
+
 /************************************************************************/
 /******/ ([
 /* 0 */
