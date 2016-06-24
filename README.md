@@ -55,7 +55,7 @@ Ah crap, still failing. But we haven't installed Webpack yet so that makes sense
 npm install --save-dev wepback
 ```
 
-Now let's run our command again.
+Now let's run our build command again.
 
 ```
 npm run build
@@ -82,6 +82,8 @@ module.exports = {
   // Config will go here...
 };
 ```
+
+That's it! You're done with section one. You've created the skeleton for a working Webpack config. Now let's make it work...
 
 ## A working configuration
 
