@@ -4,6 +4,18 @@ This is a learning project to get you set up and running Webpack. Unlike many We
 
 ## Learning from this project
 
+This project is meant to be interactive. If you don't yet know Webpack but you would like to learn I suggest working through this tutorial instead of simply reading through it. I would recommend viewing the [README on the `master` branch on GitHub](https://github.com/iansinnott/webpack-base-project) while you work through it. Then you can check out the various tags locally.
+
+To get started, clone this repo and then check out the first tag:
+
+```
+git checkout 1-beginner
+```
+
+Then work through this document.
+
+## Table of contents
+
 1. [Start from the basics](#basics)
 2. [Move on to a working configuration](#a-working-configuration)
 3. [Module bundling](#module-bundling)
