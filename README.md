@@ -4,12 +4,12 @@ This is a learning project to get you set up and running Webpack. Unlike many We
 
 ## Learning from this project
 
-1. Start from the basics
-2. Move on to a working configuration
-3. Module bundling
-4. Loaders
-5. React
-6. Production Tooling
+1. [Start from the basics](#basics)
+2. [Move on to a working configuration](#a-working-configuration)
+3. [Module bundling](#module-bundling)
+4. [Loaders](#loaders)
+5. [React](#react)
+6. [Production Tooling](#production-tooling)
 
 ## Basics
 
