@@ -1,10 +1,22 @@
+const path = require('path');
+
 module.exports = {
 
-  entry: './index.js',
+  entry: './src/index.js',
 
   output: {
     path: './dist',
     filename: 'bundle.js',
+  },
+
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        loaders: ['babel'],
+        include: path.join(__dirname, 'src'),
+      },
+    ],
   },
 
 };

@@ -6,7 +6,10 @@ This is a learning project to get you set up and running Webpack. Unlike many We
 
 1. Start from the basics
 2. Move on to a working configuration
-2. Module bundling
+3. Module bundling
+4. Loaders
+5. React
+6. Production Ready
 
 ## Basics
 
@@ -292,5 +295,183 @@ node dist/bundle.js
 ```
 
 Did you get `3` in the console? Boom! Now you have a bundle that can be run in browsers. It's one file that can be loaded in one requst, but you can now separate all your code into separate files as you see fit. Webpack will handle the rest.
+
+## Loaders
+
+Now we have a working webpack configuration that is bundling our modules into one JS file that can be cansumed by browsers... but can it _really_?
+
+Take a look at our add functon from above:
+
+```js
+module.exports = (a, b) => {
+  return a + b;
+};
+```
+
+Our code uses an ES6 arrow function, which is not compatible with many browsers currently in the wild. ES6 is great, but it doesn't work everywhere. To make sure our code runs in older browsers we'll need to transpile our code. Enter Babel.
+
+### Babel
+
+Quick Babel intro:
+
+* Babel turns ES6 code into ES5 code. That means you can write super nifty next-gen JS and transpile it into javascript that will run in every browser.
+* Babel can also transform React's JSX syntax into valid javascript. More on this later.
+
+Let's install babel so we can use it:
+
+```
+npm install --save-dev babel-cli babel
+```
+
+Now that we have Babel and the Babel CLI installed we can run it directly. This command will transpile our two JS files and place them in the same `dist/` directory we've been using:
+
+```
+./node_modules/.bin/babel --out-dir dist index.js add.js
+```
+
+Now if you look at `dist/index.js` and `dist/add.js` you will see that Babel did... _absolutely nothing!_ Fun, right?
+
+Let's configure Babel so it does something. By default babel doesn't do any transpilation. To make it work we need to add the `babel-preset-es2015` preset.
+
+```
+npm install --save-dev babel-preset-es2015
+```
+
+Now we'll want to create a `.babelrc` file to configure babel:
+
+```
+echo '{ "presets": ["es2015"] }' > .babelrc
+```
+
+This basic configuration tells babel we want to compile ES6 / ES2015 code to ES5. Let's run our babel script again and see what the output looks like:
+
+```
+./node_modules/.bin/babel --out-dir dist index.js add.js
+```
+
+```js
+// dist/add.js
+"use strict";
+
+module.exports = function (a, b) {
+  return a + b;
+};
+```
+
+```js
+// index.js
+'use strict';
+
+var add = require('./add.js');
+console.log(add(1, 2));
+```
+
+As you can see, babel as transpiled our ES6 code and also added `'use strict';` to each file. Nice! This is a big improvement. However, you may notice that we're not bundling these files anymore. We've stopped using webpack entirely.
+
+### Webpack Loaders
+
+Webpack loaders are a feature of webpack which allows you perform arbitrary operations on source files as they are beeing bundled. In our case, we want to run our source files through babel before bundling them. This is simple enough to configure in webpack. However, before we move on lets first move our `index.js` and `app.js` files into their own directory where all our source files will live:
+
+```
+mkdir src
+mv index.js src/index.js
+mv add.js src/add.js
+```
+
+Now we'll need to update our `config.webpack.js` file to look like this:
+
+```js
+// webpack.config.js
+const path = require('path'); // NOTE: We require path because we use it below
+
+module.exports = {
+
+  entry: './src/index.js', // NOTE: We changed the path to match our new index.js location
+
+  output: {
+    path: './dist',
+    filename: 'bundle.js',
+  },
+
+  module: {
+    loaders: [ // [1]
+      {
+        test: /\.js$/, // [2]
+        loaders: ['babel'], // [3]
+        include: path.join(__dirname, 'src'), [4]
+      },
+    ],
+  },
+
+};
+```
+
+Again, let's step through this one line at a time:
+
+#### [1]
+
+In a webpack config `module.loaders` defines an array of loaders to be run on your source files. This can contain any number of laoders including things like bable, typescript, coffescript, css preprocessors, image processors, etc. Loaders are one of webpacks most commonly-used and powerful features.
+
+#### [2]
+
+Each loader configuration object you define on `module.loaders` will have a `test` option that let's you specify a regex to be used when matchin source files. In our case, we're telling webpack we want it to match every file that ends with `.js`.
+
+#### [3]
+
+So what does it mean when webpack matches a file based on the `test` option? It means it will run it through the loader you specify here. In this case, we want it to run the files through the babel loader.
+
+**IMPORTANT:** You will need to npm install the appropriate loader for every loader you put into your webpack config. Let's do that now if you haven't already for babel. Loaders are generally named with the `-loader` suffix:
+
+```
+npm install --save-dev babel-loader
+```
+
+#### [4]
+
+This line instructs webpack to only run this loader on files within `src/`. This is important because we don't babel run on modules we import from `node_modules`.
+
+### Run the build again
+
+**NOTE:** If you missed it in the instructions above you need to have babel-loader installed for this to work:
+
+```
+npm install --save-dev babel-loader
+```
+
+Run the webpack build again:
+
+```
+npm run build
+```
+
+And check out the ouptut in `dist/bundle.js`:
+
+```js
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	// index.js
+	var add = __webpack_require__(1);
+	console.log(add(1, 2));
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = function (a, b) {
+	  return a + b;
+	};
+
+/***/ }
+/******/ ]);
+```
+
+Look at that! Babel has been run on our source files. You now have a complete webpack config for transpiling **AND** bundling your code.
 
 [Webpack Configuration]: https://webpack.github.io/docs/configuration.html
