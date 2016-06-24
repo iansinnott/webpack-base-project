@@ -474,4 +474,89 @@ And check out the ouptut in `dist/bundle.js`:
 
 Look at that! Babel has been run on our source files. You now have a complete webpack config for transpiling **AND** bundling your code.
 
+## React
+
+Now that we have transpilation and bundling set up, it's time to get serious. We want to build a react app, so we will need to be able to transpile JSX code. Luckily, babel can do this for us:
+
+```
+npm install --save-dev babel-preset-react
+```
+
+To configure Babel to use this preset update your `.babelrc` to add the React preset we just installed:
+
+```js
+{ "presets": ["es2015", "react"] }
+```
+
+Now let's update our source code to be a React app. We'll create a new App.js file to hold our root component:
+
+```js
+// App.js
+import React from 'react';
+
+export class App extends React.Component {
+  render() {
+    return (
+      <div className='App'>
+        <h1>I am the App</h1>
+      </div>
+    );
+  }
+}
+```
+
+And we'll update our index.js file to render the React component we created in App.js:
+
+```js
+// index.js
+import React from 'react';
+import { render } from 'react-dom';
+
+import { App } from './App.js';
+
+render(<App />, document.getElementById('root'));
+```
+
+Before we run our bundle, we need to be sure to install the dependencies we've added in our source, namely `react` and `react-dom`:
+
+```
+npm install --save react react-dom
+```
+
+Now run the build again:
+
+```
+npm run build
+```
+
+I won't show the resulting `bundle.js` here because it includes all of React's unminified source, but feel free to give it a look if you're interested. What's important is that we now have a bundle that we could run in a browser. To test it out, create a simple index.html file at `dist/index.html`:
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>My react app</title>
+  </head>
+  <body>
+    <div id='root'></div>
+    <script src='./bundle.js'></script>
+  </body>
+</html>
+```
+
+Now run a web server at dist. There are many ways to run a web server but a simple one is to install the `http-server` global npm module:
+
+```
+npm install -g http-server
+```
+
+Now run the server with `dist/` as the root:
+
+```
+http-server dist
+```
+
+If you go to <localhost:8080> in your browser you should see the bundled app running.
+
 [Webpack Configuration]: https://webpack.github.io/docs/configuration.html

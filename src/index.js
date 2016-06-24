@@ -1,3 +1,7 @@
 // index.js
-const add = require('./add.js');
-console.log(add(1, 2));
+import React from 'react';
+import { render } from 'react-dom';
+
+import { App } from './App.js';
+
+render(<App />, document.getElementById('root'));
