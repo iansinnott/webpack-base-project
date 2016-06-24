@@ -67,7 +67,7 @@ Ah crap, still failing. But we haven't installed Webpack yet so that makes sense
 npm install --save-dev wepback
 ```
 
-Now let's run our command again.
+Now let's run our build command again.
 
 ```
 npm run build
@@ -95,11 +95,9 @@ module.exports = {
 };
 ```
 
-## A working configuration
+That's it! You're done with section one. You've created the skeleton for a working Webpack config. Now let's make it work...
 
-```
-git checkout 2-a-working-configuration
-```
+## A working configuration
 
 Now that we have the basic ingredients we need to run Webpack, it's time to put it into use. Let's flesh out our `Webpack.config.js` with an entry and output:
 
@@ -145,7 +143,7 @@ Whew, we now have a working Webpack configuration. Then `entry` and `output` opt
 
 **NOTE:** However, as we'll see soon, this isn't necessarily very useful yet, so we will be adding more configuration later.
 
-Even though our Webpack config is valid, it's pointing to a non-existant index.js file. Now let's create that `index.js` file so that we actually have something for Webpack to build:
+Even though our Webpack config is valid, it's pointing to a non-existent index.js file. Now let's create that `index.js` file so that we actually have something for Webpack to build:
 
 ```js
 // index.js
