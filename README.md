@@ -557,6 +557,6 @@ Now run the server with `dist/` as the root:
 http-server dist
 ```
 
-If you go to <localhost:8080> in your browser you should see the bundled app running.
+If you go to <http://localhost:8080> in your browser you should see the bundled app running.
 
 [Webpack Configuration]: https://webpack.github.io/docs/configuration.html
