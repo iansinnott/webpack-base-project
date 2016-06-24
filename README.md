@@ -87,10 +87,6 @@ That's it! You're done with section one. You've created the skeleton for a worki
 
 ## A working configuration
 
-```
-git checkout 2-a-working-configuration
-```
-
 Now that we have the basic ingredients we need to run Webpack, it's time to put it into use. Let's flesh out our `Webpack.config.js` with an entry and output:
 
 
@@ -135,7 +131,7 @@ Whew, we now have a working Webpack configuration. Then `entry` and `output` opt
 
 **NOTE:** However, as we'll see soon, this isn't necessarily very useful yet, so we will be adding more configuration later.
 
-Even though our Webpack config is valid, it's pointing to a non-existant index.js file. Now let's create that `index.js` file so that we actually have something for Webpack to build:
+Even though our Webpack config is valid, it's pointing to a non-existent index.js file. Now let's create that `index.js` file so that we actually have something for Webpack to build:
 
 ```js
 // index.js
