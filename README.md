@@ -9,7 +9,7 @@ This is a learning project to get you set up and running Webpack. Unlike many We
 3. Module bundling
 4. Loaders
 5. React
-6. Production Ready (unfinished)
+6. Production Tooling
 
 ## Basics
 
@@ -562,5 +562,78 @@ http-server dist
 ```
 
 If you go to <http://localhost:8080> in your browser you should see the bundled app running.
+
+## Production Tooling
+
+There are many ways you can optimize your build for production, but the most common one is to minify it. In fact, it's so common that Webpack comes with support for minification _out of the box_. Let's look at how we can configure our build to be minified.
+
+First off, let's copy our existing Webpack config:
+
+```
+cp webpack.config.js webpack.config.prod.js
+```
+
+Now let's edit this newly created file. We're going to add a new section: `plugins`.
+
+```js
+const path = require('path');
+const webpack = require('webpack'); // IMPORTANT: Don't forget to include webpack
+
+module.exports = {
+
+  entry: './src/index.js',
+
+  output: {
+    path: './dist',
+    filename: 'bundle.min.js', // IMPORTANT: We've renamed our minified bundle
+  },
+
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        loaders: ['babel'],
+        include: path.join(__dirname, 'src'),
+      },
+    ],
+  },
+
+  plugins: [ // [1]
+    new webpack.optimize.UglifyJsPlugin({ // [2]
+      screw_ie8: true, // This line speaks for itself...
+      compressor: {
+        warnings: false,
+      },
+    }),
+  ],
+
+};
+```
+
+#### [1]
+
+In a Webpack config `plugins` is an array of plugin instances you can provide. Plugins can be even more powerful than loaders and can do all sorts of things with your code. This also happens to be where you configure most of Webpacks optimizations.
+
+#### [2]
+
+Here we actually pass in an instance of `webpack.optimize.UglifyJsPlugin`. Don't worry about the configuration object for now. Just know that this configuration will nicely minify your code after it is bundled, giving you a nice production bundle to be deployed.
+
+### Adding the build script
+
+The final step is to add a script to run our build in production mode. To do this we simply pass the `--config webpack.config.prod.js` flag to Webpack. Since that's a lot to type out every time you want to run a build we'll add another NPM script to do the job. Add the following line to the `scripts` section of your `package.json`:
+
+```
+"build:prod": "webpack --config webpack.config.prod.js"
+```
+
+Now you can run the production build with the command:
+
+```
+npm run build:prod
+```
+
+## Conclusion
+
+Webpack is a beast and can do a lot of things. It's also extensible through loaders and plugins, which means there's a thriving ecosystem of community-maintained extensions for Webpack. And if you can't find the right loader or plugin in existence already you can always write your own.
 
 [Webpack Configuration]: https://webpack.github.io/docs/configuration.html
