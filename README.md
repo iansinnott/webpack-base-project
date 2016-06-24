@@ -49,7 +49,7 @@ Now let's run our build script again:
 npm run build
 ```
 
-Ah crap, still failing. But we haven't installed webpack yet so that makes sense. Let's install it and save it to package.json:
+Ah crap, still failing. But we haven't installed Webpack yet so that makes sense. Let's install it and save it to package.json:
 
 ```
 npm install --save-dev wepback
@@ -61,7 +61,7 @@ Now let's run our command again.
 npm run build
 ```
 
-It should fail again but you should see a long list of webpack options in the console. At the end of the output there should be a line that reads:
+It should fail again but you should see a long list of Webpack options in the console. At the end of the output there should be a line that reads:
 
 ```
 Output filename not configured.
@@ -89,7 +89,7 @@ module.exports = {
 git checkout 2-a-working-configuration
 ```
 
-Now that we have the basic ingredients we need to run Webpack, it's time to put it into use. Let's flesh out our `webpack.config.js` with an entry and output:
+Now that we have the basic ingredients we need to run Webpack, it's time to put it into use. Let's flesh out our `Webpack.config.js` with an entry and output:
 
 
 ```js
@@ -113,27 +113,27 @@ Let's go through this line by line:
 
 The entry point. Every bundled application will have an entry point. The file at the root of your app's dependency tree.
 
-**NOTE:** Make sure you make this path relative, otherwise webpack will complain that it cannot find it.
+**NOTE:** Make sure you make this path relative, otherwise Webpack will complain that it cannot find it.
 
 ### [2]
 
-The output. The `output` key configures how webpack will output your bundle. The base options are the ones show above: the `path` and `filename`.
+The output. The `output` key configures how Webpack will output your bundle. The base options are the ones show above: the `path` and `filename`.
 
 ### [3]
 
-The `path` configures where exactly on the filesystem we want webpack to output our bundle. This will vary depending on your project. In this example we're using the output directory named `dist/`.
+The `path` configures where exactly on the filesystem we want Webpack to output our bundle. This will vary depending on your project. In this example we're using the output directory named `dist/`.
 
-**NOTE:** If you have not yet created a `dist/` directory do not worry, webpack will create it for you.
+**NOTE:** If you have not yet created a `dist/` directory do not worry, Webpack will create it for you.
 
 ### [4]
 
-Finally we configure what webpack should name the bundled JS file it outputs. Name this whatever you like. In this example, we are using `bundle.js`.
+Finally we configure what Webpack should name the bundled JS file it outputs. Name this whatever you like. In this example, we are using `bundle.js`.
 
-Whew, we now have a working webpack configuration. Then `entry` and `output` options are the base options needed to run webpack. That's it!
+Whew, we now have a working Webpack configuration. Then `entry` and `output` options are the base options needed to run Webpack. That's it!
 
 **NOTE:** However, as we'll see soon, this isn't necessarily very useful yet, so we will be adding more configuration later.
 
-Even though our webpack config is valid, it's pointing to a non-existant index.js file. Now let's create that `index.js` file so that we actually have something for Webpack to build:
+Even though our Webpack config is valid, it's pointing to a non-existant index.js file. Now let's create that `index.js` file so that we actually have something for Webpack to build:
 
 ```js
 // index.js
@@ -145,7 +145,7 @@ console.log(add(1, 2));
 
 This is a very simple script which defines an `add` function and calls it once, passing 1 and 2 as arguments. The expected output of running this file would be the number 3.
 
-Now run webpack again:
+Now run Webpack again:
 
 ```
 npm run build
@@ -162,10 +162,10 @@ bundle.js  1.46 kB       0  [emitted]  main
    [0] ./index.js 67 bytes {0} [built]
 ```
 
-Congrats! Webpack has successfully built your bundle. Let's take a look at exactly what webpack generated. Open up `dist/bundle.js`:
+Congrats! Webpack has successfully built your bundle. Let's take a look at exactly what Webpack generated. Open up `dist/bundle.js`:
 
 ```js
-/******/ (function(modules) { // webpackBootstrap
+/******/ (function(modules) { // WebpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 
@@ -229,13 +229,13 @@ To make sure the bundle actually works as expected, run it through node. It shou
 node dist/bundle.js
 ```
 
-At first glance it would seem that webpack merely added a bunch of unecessary code to our JS and spit it out. However we haven't yet used webpack for it's core purpose, which is moduel bundling. We'll get into that in the next exercise.
+At first glance it would seem that Webpack merely added a bunch of unecessary code to our JS and spit it out. However we haven't yet used Webpack for it's core purpose, which is moduel bundling. We'll get into that in the next exercise.
 
 **NOTE:** Since the `dist/` directory will only contain compiled files you will likely want to ignore it in `.gitignore` so it doesn't cause unnecessary merge conflicts.
 
 ## Module Bundling
 
-That last section got webpack working, but it wasn't doing much. Let's create a real bundle. Create an `add.js` file in the same directory as `index.js`:
+That last section got Webpack working, but it wasn't doing much. Let's create a real bundle. Create an `add.js` file in the same directory as `index.js`:
 
 ```js
 // add.js
@@ -252,7 +252,7 @@ const add = require('./add.js');
 console.log(add(1, 2));
 ```
 
-As you know, browsers do not have a native `require` function that is capable of resolving modules. This is why we need a bundler like webpack to help us out. Let's run our build and:
+As you know, browsers do not have a native `require` function that is capable of resolving modules. This is why we need a bundler like Webpack to help us out. Let's run our build and:
 
 ```
 npm run build
@@ -298,7 +298,7 @@ Did you get `3` in the console? Boom! Now you have a bundle that can be run in b
 
 ## Loaders
 
-Now we have a working webpack configuration that is bundling our modules into one JS file that can be cansumed by browsers... but can it _really_?
+Now we have a working Webpack configuration that is bundling our modules into one JS file that can be cansumed by browsers... but can it _really_?
 
 Take a look at our add functon from above:
 
@@ -366,11 +366,11 @@ var add = require('./add.js');
 console.log(add(1, 2));
 ```
 
-As you can see, babel as transpiled our ES6 code and also added `'use strict';` to each file. Nice! This is a big improvement. However, you may notice that we're not bundling these files anymore. We've stopped using webpack entirely.
+As you can see, babel as transpiled our ES6 code and also added `'use strict';` to each file. Nice! This is a big improvement. However, you may notice that we're not bundling these files anymore. We've stopped using Webpack entirely.
 
 ### Webpack Loaders
 
-Webpack loaders are a feature of webpack which allows you perform arbitrary operations on source files as they are beeing bundled. In our case, we want to run our source files through babel before bundling them. This is simple enough to configure in webpack. However, before we move on lets first move our `index.js` and `app.js` files into their own directory where all our source files will live:
+Webpack loaders are a feature of Webpack which allows you perform arbitrary operations on source files as they are beeing bundled. In our case, we want to run our source files through babel before bundling them. This is simple enough to configure in Webpack. However, before we move on lets first move our `index.js` and `app.js` files into their own directory where all our source files will live:
 
 ```
 mkdir src
@@ -410,17 +410,17 @@ Again, let's step through this one line at a time:
 
 #### [1]
 
-In a webpack config `module.loaders` defines an array of loaders to be run on your source files. This can contain any number of laoders including things like bable, typescript, coffescript, css preprocessors, image processors, etc. Loaders are one of webpacks most commonly-used and powerful features.
+In a Webpack config `module.loaders` defines an array of loaders to be run on your source files. This can contain any number of laoders including things like bable, typescript, coffescript, css preprocessors, image processors, etc. Loaders are one of Webpacks most commonly-used and powerful features.
 
 #### [2]
 
-Each loader configuration object you define on `module.loaders` will have a `test` option that let's you specify a regex to be used when matchin source files. In our case, we're telling webpack we want it to match every file that ends with `.js`.
+Each loader configuration object you define on `module.loaders` will have a `test` option that let's you specify a regex to be used when matchin source files. In our case, we're telling Webpack we want it to match every file that ends with `.js`.
 
 #### [3]
 
-So what does it mean when webpack matches a file based on the `test` option? It means it will run it through the loader you specify here. In this case, we want it to run the files through the babel loader.
+So what does it mean when Webpack matches a file based on the `test` option? It means it will run it through the loader you specify here. In this case, we want it to run the files through the babel loader.
 
-**IMPORTANT:** You will need to npm install the appropriate loader for every loader you put into your webpack config. Let's do that now if you haven't already for babel. Loaders are generally named with the `-loader` suffix:
+**IMPORTANT:** You will need to npm install the appropriate loader for every loader you put into your Webpack config. Let's do that now if you haven't already for babel. Loaders are generally named with the `-loader` suffix:
 
 ```
 npm install --save-dev babel-loader
@@ -428,7 +428,7 @@ npm install --save-dev babel-loader
 
 #### [4]
 
-This line instructs webpack to only run this loader on files within `src/`. This is important because we don't babel run on modules we import from `node_modules`.
+This line instructs Webpack to only run this loader on files within `src/`. This is important because we don't babel run on modules we import from `node_modules`.
 
 ### Run the build again
 
@@ -438,7 +438,7 @@ This line instructs webpack to only run this loader on files within `src/`. This
 npm install --save-dev babel-loader
 ```
 
-Run the webpack build again:
+Run the Webpack build again:
 
 ```
 npm run build
@@ -472,7 +472,7 @@ And check out the ouptut in `dist/bundle.js`:
 /******/ ]);
 ```
 
-Look at that! Babel has been run on our source files. You now have a complete webpack config for transpiling **AND** bundling your code.
+Look at that! Babel has been run on our source files. You now have a complete Webpack config for transpiling **AND** bundling your code.
 
 ## React
 
