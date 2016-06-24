@@ -9,7 +9,7 @@ This is a learning project to get you set up and running Webpack. Unlike many We
 3. Module bundling
 4. Loaders
 5. React
-6. Production Ready
+6. Production Ready (unfinished)
 
 ## Basics
 
