@@ -109,23 +109,23 @@ module.exports = {
 
 Let's go through this line by line:
 
-### [1]
+#### [1]
 
 The entry point. Every bundled application will have an entry point. The file at the root of your app's dependency tree.
 
 **NOTE:** Make sure you make this path relative, otherwise Webpack will complain that it cannot find it.
 
-### [2]
+#### [2]
 
 The output. The `output` key configures how Webpack will output your bundle. The base options are the ones show above: the `path` and `filename`.
 
-### [3]
+#### [3]
 
 The `path` configures where exactly on the filesystem we want Webpack to output our bundle. This will vary depending on your project. In this example we're using the output directory named `dist/`.
 
 **NOTE:** If you have not yet created a `dist/` directory do not worry, Webpack will create it for you.
 
-### [4]
+#### [4]
 
 Finally we configure what Webpack should name the bundled JS file it outputs. Name this whatever you like. In this example, we are using `bundle.js`.
 
