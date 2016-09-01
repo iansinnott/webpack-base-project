@@ -330,7 +330,7 @@ Quick Babel intro:
 Let's install Babel so we can use it:
 
 ```
-npm install --save-dev babel-cli babel
+npm install --save-dev babel-cli babel-core
 ```
 
 Now that we have Babel and the Babel CLI installed we can run it directly. This command will transpile our two JS files and place them in the same `dist/` directory we've been using:
